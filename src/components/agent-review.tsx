@@ -271,28 +271,31 @@ export function AgentReview({ agent }: { agent: BackendAgent }) {
                   )}
                 </div>
 
-                {status === "PENDING" && (
-                  <div className="flex gap-2">
-                    <button
-                      disabled={busy}
-                      onClick={() => {
-                        setReason("");
-                        setRejecting(document);
-                      }}
-                      className="rounded-xl border border-input px-3 py-2 text-sm font-medium hover:bg-clay-soft disabled:opacity-50"
-                    >
-                      Reject
-                    </button>
+<div className="flex gap-2">
+  {status !== "APPROVED" && (
+    <button
+      disabled={busy}
+      onClick={() => setApproving(document)}
+      className="rounded-xl bg-success px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
+    >
+      Approve
+    </button>
+  )}
 
-                    <button
-                      disabled={busy}
-                      onClick={() => setApproving(document)}
-                      className="rounded-xl bg-success px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
-                    >
-                      Approve
-                    </button>
-                  </div>
-                )}
+  {status !== "REJECTED" && (
+    <button
+      disabled={busy}
+      onClick={() => {
+        setReason("");
+        setRejecting(document);
+      }}
+      className="rounded-xl border border-error px-3 py-2 text-sm font-medium text-error hover:bg-clay-soft disabled:opacity-50"
+    >
+      Reject
+    </button>
+  )}
+</div>
+
               </div>
             );
           })
