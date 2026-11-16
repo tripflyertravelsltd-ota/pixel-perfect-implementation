@@ -29,6 +29,11 @@ import { Route as AgentSettingsRouteImport } from './routes/agent.settings'
 import { Route as AgentSignInRouteImport } from './routes/agent.sign-in'
 import { Route as AdminAgentsIndexRouteImport } from './routes/admin.agents.index'
 import { Route as AdminAgentsAgentIdRouteImport } from './routes/admin.agents.$agentId'
+import { Route as AgentFlightsIndexRouteImport } from './routes/agent.flights.index'
+import { Route as AgentFlightsConfirmationRouteImport } from './routes/agent.flights.confirmation'
+import { Route as AgentFlightsPassengersRouteImport } from './routes/agent.flights.passengers'
+import { Route as AgentFlightsResultsRouteImport } from './routes/agent.flights.results'
+import { Route as AgentFlightsReviewRouteImport } from './routes/agent.flights.review'
 import { Route as AgentWalletIndexRouteImport } from './routes/agent.wallet.index'
 import { Route as AgentWalletTopUpRouteImport } from './routes/agent.wallet.top-up'
 import { Route as AgentWalletTransactionsRouteImport } from './routes/agent.wallet.transactions'
@@ -133,6 +138,32 @@ const AdminAgentsAgentIdRoute = AdminAgentsAgentIdRouteImport.update({
   path: '/admin/agents/$agentId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AgentFlightsIndexRoute = AgentFlightsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AgentFlightsRoute,
+} as any)
+const AgentFlightsConfirmationRoute =
+  AgentFlightsConfirmationRouteImport.update({
+    id: '/confirmation',
+    path: '/confirmation',
+    getParentRoute: () => AgentFlightsRoute,
+  } as any)
+const AgentFlightsPassengersRoute = AgentFlightsPassengersRouteImport.update({
+  id: '/passengers',
+  path: '/passengers',
+  getParentRoute: () => AgentFlightsRoute,
+} as any)
+const AgentFlightsResultsRoute = AgentFlightsResultsRouteImport.update({
+  id: '/results',
+  path: '/results',
+  getParentRoute: () => AgentFlightsRoute,
+} as any)
+const AgentFlightsReviewRoute = AgentFlightsReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => AgentFlightsRoute,
+} as any)
 const AgentWalletIndexRoute = AgentWalletIndexRouteImport.update({
   id: '/agent/wallet/',
   path: '/agent/wallet/',
@@ -163,15 +194,20 @@ export interface FileRoutesByFullPath {
   '/agent/bookings': typeof AgentBookingsRoute
   '/agent/dashboard': typeof AgentDashboardRoute
   '/agent/documents': typeof AgentDocumentsRoute
-  '/agent/flights': typeof AgentFlightsRoute
+  '/agent/flights': typeof AgentFlightsRouteWithChildren
   '/agent/profile': typeof AgentProfileRoute
   '/agent/register': typeof AgentRegisterRoute
   '/agent/settings': typeof AgentSettingsRoute
   '/agent/sign-in': typeof AgentSignInRoute
   '/admin/agents/$agentId': typeof AdminAgentsAgentIdRoute
+  '/agent/flights/confirmation': typeof AgentFlightsConfirmationRoute
+  '/agent/flights/passengers': typeof AgentFlightsPassengersRoute
+  '/agent/flights/results': typeof AgentFlightsResultsRoute
+  '/agent/flights/review': typeof AgentFlightsReviewRoute
   '/agent/wallet/top-up': typeof AgentWalletTopUpRoute
   '/agent/wallet/transactions': typeof AgentWalletTransactionsRoute
   '/admin/agents/': typeof AdminAgentsIndexRoute
+  '/agent/flights/': typeof AgentFlightsIndexRoute
   '/agent/wallet/': typeof AgentWalletIndexRoute
 }
 export interface FileRoutesByTo {
@@ -188,15 +224,19 @@ export interface FileRoutesByTo {
   '/agent/bookings': typeof AgentBookingsRoute
   '/agent/dashboard': typeof AgentDashboardRoute
   '/agent/documents': typeof AgentDocumentsRoute
-  '/agent/flights': typeof AgentFlightsRoute
   '/agent/profile': typeof AgentProfileRoute
   '/agent/register': typeof AgentRegisterRoute
   '/agent/settings': typeof AgentSettingsRoute
   '/agent/sign-in': typeof AgentSignInRoute
   '/admin/agents/$agentId': typeof AdminAgentsAgentIdRoute
+  '/agent/flights/confirmation': typeof AgentFlightsConfirmationRoute
+  '/agent/flights/passengers': typeof AgentFlightsPassengersRoute
+  '/agent/flights/results': typeof AgentFlightsResultsRoute
+  '/agent/flights/review': typeof AgentFlightsReviewRoute
   '/agent/wallet/top-up': typeof AgentWalletTopUpRoute
   '/agent/wallet/transactions': typeof AgentWalletTransactionsRoute
   '/admin/agents': typeof AdminAgentsIndexRoute
+  '/agent/flights': typeof AgentFlightsIndexRoute
   '/agent/wallet': typeof AgentWalletIndexRoute
 }
 export interface FileRoutesById {
@@ -214,15 +254,20 @@ export interface FileRoutesById {
   '/agent/bookings': typeof AgentBookingsRoute
   '/agent/dashboard': typeof AgentDashboardRoute
   '/agent/documents': typeof AgentDocumentsRoute
-  '/agent/flights': typeof AgentFlightsRoute
+  '/agent/flights': typeof AgentFlightsRouteWithChildren
   '/agent/profile': typeof AgentProfileRoute
   '/agent/register': typeof AgentRegisterRoute
   '/agent/settings': typeof AgentSettingsRoute
   '/agent/sign-in': typeof AgentSignInRoute
   '/admin/agents/$agentId': typeof AdminAgentsAgentIdRoute
+  '/agent/flights/confirmation': typeof AgentFlightsConfirmationRoute
+  '/agent/flights/passengers': typeof AgentFlightsPassengersRoute
+  '/agent/flights/results': typeof AgentFlightsResultsRoute
+  '/agent/flights/review': typeof AgentFlightsReviewRoute
   '/agent/wallet/top-up': typeof AgentWalletTopUpRoute
   '/agent/wallet/transactions': typeof AgentWalletTransactionsRoute
   '/admin/agents/': typeof AdminAgentsIndexRoute
+  '/agent/flights/': typeof AgentFlightsIndexRoute
   '/agent/wallet/': typeof AgentWalletIndexRoute
 }
 export interface FileRouteTypes {
@@ -247,9 +292,14 @@ export interface FileRouteTypes {
     | '/agent/settings'
     | '/agent/sign-in'
     | '/admin/agents/$agentId'
+    | '/agent/flights/confirmation'
+    | '/agent/flights/passengers'
+    | '/agent/flights/results'
+    | '/agent/flights/review'
     | '/agent/wallet/top-up'
     | '/agent/wallet/transactions'
     | '/admin/agents/'
+    | '/agent/flights/'
     | '/agent/wallet/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -266,15 +316,19 @@ export interface FileRouteTypes {
     | '/agent/bookings'
     | '/agent/dashboard'
     | '/agent/documents'
-    | '/agent/flights'
     | '/agent/profile'
     | '/agent/register'
     | '/agent/settings'
     | '/agent/sign-in'
     | '/admin/agents/$agentId'
+    | '/agent/flights/confirmation'
+    | '/agent/flights/passengers'
+    | '/agent/flights/results'
+    | '/agent/flights/review'
     | '/agent/wallet/top-up'
     | '/agent/wallet/transactions'
     | '/admin/agents'
+    | '/agent/flights'
     | '/agent/wallet'
   id:
     | '__root__'
@@ -297,9 +351,14 @@ export interface FileRouteTypes {
     | '/agent/settings'
     | '/agent/sign-in'
     | '/admin/agents/$agentId'
+    | '/agent/flights/confirmation'
+    | '/agent/flights/passengers'
+    | '/agent/flights/results'
+    | '/agent/flights/review'
     | '/agent/wallet/top-up'
     | '/agent/wallet/transactions'
     | '/admin/agents/'
+    | '/agent/flights/'
     | '/agent/wallet/'
   fileRoutesById: FileRoutesById
 }
@@ -317,7 +376,7 @@ export interface RootRouteChildren {
   AgentBookingsRoute: typeof AgentBookingsRoute
   AgentDashboardRoute: typeof AgentDashboardRoute
   AgentDocumentsRoute: typeof AgentDocumentsRoute
-  AgentFlightsRoute: typeof AgentFlightsRoute
+  AgentFlightsRoute: typeof AgentFlightsRouteWithChildren
   AgentProfileRoute: typeof AgentProfileRoute
   AgentRegisterRoute: typeof AgentRegisterRoute
   AgentSettingsRoute: typeof AgentSettingsRoute
@@ -471,6 +530,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAgentsAgentIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/agent/flights/': {
+      id: '/agent/flights/'
+      path: '/'
+      fullPath: '/agent/flights/'
+      preLoaderRoute: typeof AgentFlightsIndexRouteImport
+      parentRoute: typeof AgentFlightsRoute
+    }
+    '/agent/flights/confirmation': {
+      id: '/agent/flights/confirmation'
+      path: '/confirmation'
+      fullPath: '/agent/flights/confirmation'
+      preLoaderRoute: typeof AgentFlightsConfirmationRouteImport
+      parentRoute: typeof AgentFlightsRoute
+    }
+    '/agent/flights/passengers': {
+      id: '/agent/flights/passengers'
+      path: '/passengers'
+      fullPath: '/agent/flights/passengers'
+      preLoaderRoute: typeof AgentFlightsPassengersRouteImport
+      parentRoute: typeof AgentFlightsRoute
+    }
+    '/agent/flights/results': {
+      id: '/agent/flights/results'
+      path: '/results'
+      fullPath: '/agent/flights/results'
+      preLoaderRoute: typeof AgentFlightsResultsRouteImport
+      parentRoute: typeof AgentFlightsRoute
+    }
+    '/agent/flights/review': {
+      id: '/agent/flights/review'
+      path: '/review'
+      fullPath: '/agent/flights/review'
+      preLoaderRoute: typeof AgentFlightsReviewRouteImport
+      parentRoute: typeof AgentFlightsRoute
+    }
     '/agent/wallet/': {
       id: '/agent/wallet/'
       path: '/agent/wallet'
@@ -495,6 +589,26 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AgentFlightsRouteChildren {
+  AgentFlightsConfirmationRoute: typeof AgentFlightsConfirmationRoute
+  AgentFlightsPassengersRoute: typeof AgentFlightsPassengersRoute
+  AgentFlightsResultsRoute: typeof AgentFlightsResultsRoute
+  AgentFlightsReviewRoute: typeof AgentFlightsReviewRoute
+  AgentFlightsIndexRoute: typeof AgentFlightsIndexRoute
+}
+
+const AgentFlightsRouteChildren: AgentFlightsRouteChildren = {
+  AgentFlightsConfirmationRoute: AgentFlightsConfirmationRoute,
+  AgentFlightsPassengersRoute: AgentFlightsPassengersRoute,
+  AgentFlightsResultsRoute: AgentFlightsResultsRoute,
+  AgentFlightsReviewRoute: AgentFlightsReviewRoute,
+  AgentFlightsIndexRoute: AgentFlightsIndexRoute,
+}
+
+const AgentFlightsRouteWithChildren = AgentFlightsRoute._addFileChildren(
+  AgentFlightsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FlightsRoute: FlightsRoute,
@@ -509,7 +623,7 @@ const rootRouteChildren: RootRouteChildren = {
   AgentBookingsRoute: AgentBookingsRoute,
   AgentDashboardRoute: AgentDashboardRoute,
   AgentDocumentsRoute: AgentDocumentsRoute,
-  AgentFlightsRoute: AgentFlightsRoute,
+  AgentFlightsRoute: AgentFlightsRouteWithChildren,
   AgentProfileRoute: AgentProfileRoute,
   AgentRegisterRoute: AgentRegisterRoute,
   AgentSettingsRoute: AgentSettingsRoute,
